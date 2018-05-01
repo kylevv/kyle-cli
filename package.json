@@ -1,8 +1,10 @@
 {
   "name": "kyle-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "bin" : {"kyle" : "./bin/index.js"},
+  "bin": {
+    "kyle": "./bin/index.js"
+  },
   "main": "bin/index.js",
   "scripts": {
     "lint": "standard",
@@ -19,7 +21,10 @@
   },
   "homepage": "https://github.com/kylevv/kyle-cli#readme",
   "dependencies": {
-    "commander": "^2.15.1"
+    "commander": "^2.15.1",
+    "request": "^2.85.0",
+    "request-promise-native": "^1.0.5",
+    "term-img": "^2.1.0"
   },
   "devDependencies": {
     "standard": "^11.0.1"
