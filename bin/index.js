@@ -3,6 +3,9 @@
 const program = require('commander')
 const pkg = require('../package.json')
 const xkcd = require('../commands/xkcd')
+const blink = require('../commands/blink')
+
+program.cwd = process.cwd()
 
 program
   .version(pkg.version)
@@ -41,6 +44,19 @@ program
   .description('View an XKCD comic')
   .action(function (env) {
     xkcd(env)
+      .catch((err) => {
+        console.log('ERR:', err)
+      })
+  })
+
+program
+  .command('blink <kit>')
+  .description('move blink dev files to creative dir')
+  .option('-b, --backup', 'Rename original files at the destination')
+  .option('--src', 'Specify a source directory')
+  .option('--dest', 'Specify a destination directory')
+  .action(function (kit, env) {
+    blink(program, kit, env)
       .catch((err) => {
         console.log('ERR:', err)
       })
