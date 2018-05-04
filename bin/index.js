@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 const program = require('commander')
+const os = require('os')
+const path = require('path')
 const pkg = require('../package.json')
 const xkcd = require('../commands/xkcd')
 const blink = require('../commands/blink')
@@ -52,10 +54,12 @@ program
 program
   .command('blink <kit>')
   .description('move blink dev files to creative dir')
-  .option('-b, --backup', 'Rename original files at the destination')
-  .option('--src', 'Specify a source directory')
-  .option('--dest', 'Specify a destination directory')
+  .option('-b, --backup [prefix]', 'Rename original files at the destination')
+  .option('--src <src>', 'Specify a source directory', (src) => src.replace(/^~/, os.homedir()))
+  .option('--dest <dest>', 'Specify a destination directory', (dest) => dest.replace(/^~/, os.homedir()))
   .action(function (kit, env) {
+    if (!env.src) env.src = path.join(os.homedir(), 'projects/blink/dist')
+    if (!env.dest) env.dest = path.join(program.cwd, 'src')
     blink(program, kit, env)
       .catch((err) => {
         console.log('ERR:', err)
