@@ -6,6 +6,7 @@ const path = require('path')
 const pkg = require('../package.json')
 const xkcd = require('../commands/xkcd')
 const blink = require('../commands/blink')
+const muni = require('../commands/muni')
 
 program.cwd = process.cwd()
 
@@ -61,6 +62,16 @@ program
     if (!env.src) env.src = path.join(os.homedir(), 'projects/blink/dist')
     if (!env.dest) env.dest = path.join(program.cwd, 'src')
     blink(program, kit, env)
+      .catch((err) => {
+        console.log('ERR:', err)
+      })
+  })
+
+program
+  .command('muni')
+  .description('inbound train predictions')
+  .action(function (env) {
+    muni(env)
       .catch((err) => {
         console.log('ERR:', err)
       })
