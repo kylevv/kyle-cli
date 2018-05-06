@@ -1,31 +1,24 @@
 const request = require('request-promise-native')
 
-Array.prototype.unzipAll = function () {
+Array.prototype.flatten = function () {
   return this.reduce((result, el) => {
-    return result.concat(Array.isArray(el) ? el.unzipAll() : el)
+    return result.concat(Array.isArray(el) ? el.flatten() : el)
   }, [])
 }
 
-Array.prototype.ensureArray = function () {
-  return this
-}
-
-Object.prototype.ensureArray = function () {
-  return [this]
+const ensureArray = (value) => {
+  return Array.isArray(value) ? value : [value]
 }
 
 module.exports = async (env) => {
   const url = 'http://webservices.nextbus.com/service/publicJSONFeed?command=predictions&a=sf-muni&stopId=15417'
   const results = await request({url: url, json: true})
-  const departures = results.predictions
-    .ensureArray()
+  const departures = ensureArray(results.predictions)
     .filter((line) => !!line.direction)
     .map((line) => {
-      return line.direction
-        .ensureArray()
+      return ensureArray(line.direction)
         .map((direction) => {
-          return direction.prediction
-            .ensureArray()
+          return ensureArray(direction.prediction)
             .map((train) => {
               return {
                 line: line.routeTag,
@@ -34,9 +27,9 @@ module.exports = async (env) => {
             })
         })
     })
-    .unzipAll()
+    .flatten()
     .sort((a, b) => +a.time - +b.time)
     .slice(0, 10)
 
-  console.log('departures:,', departures)
+  console.log(departures)
 }

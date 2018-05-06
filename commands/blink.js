@@ -4,7 +4,7 @@ const path = require('path')
 module.exports = async (program, kit, env) => {
   const srcPath = env.src
   const destPath = env.dest
-  if (/projects\/blink/.test(destPath)) return Promise.rejet(new Error('Wrong Dest Director!'))
+  if (/projects\/blink/.test(destPath)) return Promise.rejet(new Error('Wrong Dest Directory!'))
   if (env.backup) {
     const prefix = typeof env.backup === 'string' ? env.backup : 'x'
     const files = await fs.readdir(destPath)
