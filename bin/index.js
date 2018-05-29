@@ -3,10 +3,12 @@
 const program = require('commander')
 const os = require('os')
 const path = require('path')
+const termImg = require('term-img')
 const pkg = require('../package.json')
 const xkcd = require('../commands/xkcd')
 const blink = require('../commands/blink')
 const muni = require('../commands/muni')
+const qr = require('../commands/qr')
 
 program.cwd = process.cwd()
 
@@ -47,6 +49,13 @@ program
   .description('View an XKCD comic')
   .action(function (env) {
     xkcd(env)
+      .then((comic) => {
+        console.log('NUMBER:', comic.num)
+        console.log('IMG:', comic.url)
+        termImg(comic.img, () => {
+          console.log('Unsupported terminal (use iTerm >= 3)')
+        })
+      })
       .catch((err) => {
         console.log('ERR:', err)
       })
@@ -72,6 +81,21 @@ program
   .description('inbound train predictions')
   .action(function (env) {
     muni(env)
+      .catch((err) => {
+        console.log('ERR:', err)
+      })
+  })
+
+program
+  .command('qr <string>')
+  .description('generate qr code')
+  .action(function (string) {
+    qr(string)
+      .then((img) => {
+        termImg(img, () => {
+          console.log('Unsupported terminal (use iTerm >= 3)')
+        })
+      })
       .catch((err) => {
         console.log('ERR:', err)
       })

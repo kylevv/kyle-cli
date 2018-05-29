@@ -1,6 +1,6 @@
 {
   "name": "kyle-cli",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "bin": {
     "kyle": "./bin/index.js"
@@ -23,6 +23,7 @@
   "dependencies": {
     "commander": "^2.15.1",
     "fs-extra": "^6.0.0",
+    "qr-image": "^3.2.0",
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5",
     "term-img": "^2.1.0"

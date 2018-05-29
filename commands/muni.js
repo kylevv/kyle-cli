@@ -1,6 +1,6 @@
 const request = require('request-promise-native')
 
-Array.prototype.flatten = function () {
+Array.prototype.flatten = function () { // eslint-disable-line
   return this.reduce((result, el) => {
     return result.concat(Array.isArray(el) ? el.flatten() : el)
   }, [])
