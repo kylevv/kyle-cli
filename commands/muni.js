@@ -12,7 +12,7 @@ const ensureArray = (value) => {
 
 module.exports = async (env) => {
   const url = 'http://webservices.nextbus.com/service/publicJSONFeed?command=predictions&a=sf-muni&stopId=15417'
-  const results = await request({url: url, json: true})
+  const results = await request({ url: url, json: true })
   const departures = ensureArray(results.predictions)
     .filter((line) => !!line.direction)
     .map((line) => {
